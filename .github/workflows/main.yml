@@ -1,0 +1,55 @@
+name: Deploy
+on: [workflow_dispatch]
+jobs:
+    release:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: lts/*
+                  cache: "npm"
+
+            - run: npm ci
+
+            - run: npm run build
+
+            - id: getFileName
+              run: echo "::set-output name=file_name::$(ls dist | grep .zip)"
+
+            - id: getVersion
+              run: echo "::set-output name=version::$(node scripts/version.js)"
+
+            - uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ steps.getVersion.outputs.version }}
+                  files: "dist/${{ steps.getFileName.outputs.file_name }}"
+
+    upload:
+        needs: [release]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: robinraju/release-downloader@v1.4
+              with:
+                  latest: true
+                  token: ${{ github.token }}
+
+            - id: getFileName
+              run: echo "::set-output name=file_name::$(ls)"
+
+            - id: getUploadURL
+              uses: fjogeleit/http-request-action@v1
+              with:
+                  url: "https://mods.factorio.com/api/v2/mods/releases/init_upload"
+                  bearerToken: ${{ secrets.FACTORIO_API_KEY }}
+                  contentType: "application/x-www-form-urlencoded"
+                  data: "mod=rocket-shower"
+
+            - uses: fjogeleit/http-request-action@v1
+              with:
+                  url: ${{ fromJson(steps.getUploadURL.outputs.response).upload_url }}
+                  bearerToken: ${{ secrets.FACTORIO_API_KEY }}
+                  contentType: "multiple/form-data"
+                  files: '{"file": "${{ github.workspace }}/${{ steps.getFileName.outputs.file_name }}"}'

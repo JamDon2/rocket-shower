@@ -1,0 +1,27 @@
+{
+  "name": "rocket-shower",
+  "version": "1.0.0",
+  "private": true,
+  "watch": {
+    "dev": "src/**/*.*"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "predev": "node scripts/clean.js dev",
+    "dev": "node scripts/dev.js",
+    "clean": "node scripts/clean.js all npm",
+    "sync-version": "node scripts/sync-version.js",
+    "watch": "npm-watch"
+  },
+  "author": "JamDon2",
+  "license": "GNU GPLv3",
+  "devDependencies": {
+    "archiver": "^5.3.1",
+    "bestzip": "^2.2.1",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.1.0",
+    "npm-watch": "^0.11.0",
+    "typed-factorio": "^1.4.0",
+    "typescript-to-lua": "^1.7.1"
+  }
+}
