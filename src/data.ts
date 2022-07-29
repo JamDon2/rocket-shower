@@ -15,7 +15,7 @@ data.raw["character"]["character"].resistances = [
     {
         type: "rs:damage",
         decrease: 0,
-        percent: 100,
+        percent: settings.startup["rs:player-resistance"].value,
     },
 ]
 
@@ -29,11 +29,11 @@ artilleryProjectile.action.action_delivery.target_effects[1].action.action_deliv
     [
         {
             type: "damage",
-            damage: { amount: 500, type: "rs:damage" },
-        },
-        {
-            type: "damage",
-            damage: { amount: 500, type: "rs:damage" },
+            damage: {
+                amount: settings.startup["rs:damage-artillery-projectile"]
+                    .value,
+                type: "rs:damage",
+            },
         },
     ]
 
@@ -44,7 +44,11 @@ const atomicBombGroundZeroProjectile = table.deepcopy(
 atomicBombGroundZeroProjectile.name = "rs:atomic-bomb-ground-zero-projectile"
 
 atomicBombGroundZeroProjectile.action[1].action_delivery.target_effects.damage =
-    { amount: 100, type: "rs:damage" }
+    {
+        amount: settings.startup["rs:damage-atomic-bomb-ground-zero-projectile"]
+            .value,
+        type: "rs:damage",
+    }
 
 const atomicBombWave = table.deepcopy(
     data.raw["projectile"]["atomic-bomb-wave"]
@@ -53,7 +57,7 @@ const atomicBombWave = table.deepcopy(
 atomicBombWave.name = "rs:atomic-bomb-wave"
 
 atomicBombWave.action[1].action_delivery.target_effects.damage = {
-    amount: 400,
+    amount: settings.startup["rs:damage-atomic-bomb-wave"].value,
     type: "rs:damage",
 }
 
@@ -62,7 +66,7 @@ const atomicRocket = table.deepcopy(data.raw["projectile"]["atomic-rocket"])
 atomicRocket.name = "rs:atomic-rocket"
 
 atomicRocket.action.action_delivery.target_effects[7].damage = {
-    amount: 400,
+    amount: settings.startup["rs:damage-atomic-rocket"].value,
     type: "rs:damage",
 }
 
