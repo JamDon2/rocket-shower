@@ -9,3 +9,8 @@ Version: 1.1.1
 Date: 2022.07.29
   Locale:
     - Update command help text
+---------------------------------------------------------------------------------------------------
+Version: 1.1.2
+Date: 2022.07.29
+  Bugfixes:
+    - Fix a bug that caused the game not to stop when using the stop command

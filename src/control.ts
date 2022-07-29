@@ -46,26 +46,28 @@ script.on_nth_tick(
     settings.startup["rs:fire-interval"].value as number,
     function () {
         for (const entry of Object.entries(global.activePlayers)) {
-            const player = game.players[entry[0]]
+            if (entry[1]) {
+                const player = game.players[entry[0]]
 
-            if (player.valid) {
-                let nuclear: boolean = false
+                if (player.valid) {
+                    let nuclear: boolean = false
 
-                if (global.playerLastPosition[player.index]) {
-                    const lastX = global.playerLastPosition[player.index].x
-                    const lastY = global.playerLastPosition[player.index].y
+                    if (global.playerLastPosition[player.index]) {
+                        const lastX = global.playerLastPosition[player.index].x
+                        const lastY = global.playerLastPosition[player.index].y
 
-                    if (
-                        lastX === player.position.x &&
-                        lastY === player.position.y
-                    ) {
-                        nuclear = true
+                        if (
+                            lastX === player.position.x &&
+                            lastY === player.position.y
+                        ) {
+                            nuclear = true
+                        }
                     }
+
+                    createRocket(player, nuclear)
+
+                    global.playerLastPosition[player.index] = player.position
                 }
-
-                createRocket(player, nuclear)
-
-                global.playerLastPosition[player.index] = player.position
             }
         }
     }
