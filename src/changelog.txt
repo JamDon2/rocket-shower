@@ -4,3 +4,8 @@ Date: 2022.07.29
   Features:
     - Add a setting for player resistance to the rockets
     - Add an option to set each damage value
+---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+Date: 2022.07.29
+  Locale:
+    - Update command help text
